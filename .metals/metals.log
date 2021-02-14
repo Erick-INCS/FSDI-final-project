@@ -2,3 +2,6 @@
 [0m2021.02.11 14:21:36 INFO  time: initialize in 3.85s[0m
 [0m2021.02.11 14:21:40 WARN  Build server is not auto-connectable.[0m
 [0m2021.02.11 14:21:40 WARN  no build tool detected in workspace '/HDD/Code/SDGKU/final-project/project'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+Feb 11, 2021 5:40:40 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTraceNotification
+[0m2021.02.11 21:25:54 INFO  shutting down Metals[0m

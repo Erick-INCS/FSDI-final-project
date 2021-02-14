@@ -1,3 +1,16 @@
 <div>
-    {{-- If your happiness depends on money, you will never be happy with yourself. --}}
+    @php
+    $alt=FALSE;
+    @endphp
+
+    @foreach($posts as $post)
+        
+        <x-post-card :post="$post" :alt="$alt" />
+
+
+        @php
+        $alt = !$alt
+        @endphp
+
+    @endforeach
 </div>

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,8 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'index')->name('home');
+Route::get('/', [PageController::class, 'home'])->name('home');
+Route::get('/post/{post:slug}', [PageController::class, 'post'])->name('post');
+
+// Admin panel
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/posts', function () {
+    return view('admin-posts');
+})->name('admin-posts');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/surveys', function () {
+    return view('admin-survey');
+})->name('admin-survey');

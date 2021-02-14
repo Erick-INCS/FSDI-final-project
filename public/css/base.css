@@ -247,6 +247,12 @@ ol.breadcrumb a {
     .card.sub-post {
         flex-direction: column;
     }
+
+    .card.sub-post h3 {
+        margin-right: 0;
+        font-size: 1.2rem;
+    }
+
     .card.sub-post img {
         max-width: 100%;
         max-height: 20vh;

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\UserType;
 use App\Models\Post;
+use App\Models\Survey;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,6 +20,7 @@ class DatabaseSeeder extends Seeder
         User::factory(5)->create();
         UserType::factory(3)->create();
         Post::factory(10)->create();
+        Survey::factory(10)->create();
 
     }
 }
