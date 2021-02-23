@@ -13,11 +13,18 @@
     @if($isOpen)
     @include('livewire.create')
     @endif
+    <form class="form-inline" method="GET">
+        <div class="form-group mb-2">
+            <label for="filter" class="col-sm-2 col-form-label">Filter</label>
+            <input type="text" class="form-control" id="filter" name="filter" placeholder="Product name..." value="{{$filter}}">
+        </div>
+        <button type="submit" class="btn btn-default mb-2">Filter</button>
+    </form>
     <table class="table-fixed w-full">
         <thead>
             <tr class="bg-gray-100">
                 <th class="px-4 py-2 w-20">ID</th>
-                <th class="px-4 py-2">Title</th>
+                <th class="px-4 py-2">@sortablelink('name', 'Title')</th>
                 <th class="px-4 py-2 w-20">User</th>
                 <th class="px-4 py-2">Created at</th>
                 <th class="px-4 py-2">Content</th>

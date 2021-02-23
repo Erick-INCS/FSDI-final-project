@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +15,20 @@ use App\Http\Controllers\PageController;
 |
 */
 
+/* Route::get('/', function(){
+    return Inertia::render('home');
+});
+*/
+
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/post/{post:slug}', [PageController::class, 'post'])->name('post');
 
+Route::get('/survey/{survey:slug}', [PageController::class, 'survey'])->name('survey');
 // Admin panel
+
+// Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function() {
+//     return view('dashboard');
+// });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');

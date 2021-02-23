@@ -16,7 +16,8 @@ mix.js('resources/js/app.js', 'public/js')
         require('postcss-import'),
         require('tailwindcss'),
         require('autoprefixer'),
-    ]);
+    ]).js('resources/js/init/*', 'public/js/init')
+    .js('resources/js/Custom/*', 'public/js/Custom')
 
 if (mix.inProduction()) {
     mix.version();

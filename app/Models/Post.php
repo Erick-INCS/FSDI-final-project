@@ -4,11 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
+use Kyslik\ColumnSortable\Sortable;
 
 class Post extends Model
 {
-    use HasFactory;
-    protected $fillable = ['name', 'content'];
+    use HasFactory, Sortable;
+
+    protected $fillable = ['name', 'content', 'image', 'enabled', 'slug'];
+    public $sortable = ['name'];
 
     public function user()
     {
@@ -31,5 +35,17 @@ class Post extends Model
             ->get();
     }
 
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
 
+    public function searchableAs()
+    {
+        return 'id';
+    }
 }

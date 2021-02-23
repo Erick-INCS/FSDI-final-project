@@ -20,11 +20,11 @@ class CreateSurveysTable extends Migration
 
             $table->string('name');
             $table->string('slug');
-            $table->string('image');
+            $table->string('image')->default('');
             $table->json('config');
             $table->boolean('enabled')->default(0);
             $table->boolean('public')->default(0);
-            $table->integer('responseLimit');
+            $table->integer('responseLimit')->default(-1);
             $table->datetime('aviableFrom');
             $table->datetime('aviableTo');
 

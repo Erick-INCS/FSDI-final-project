@@ -12,7 +12,17 @@
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3">Create New Survey</button>
     @if($isOpen)
         @include('livewire.create_survey')
+        <script>
+            setTimeout(function() {
+                [...document.querySelectorAll('a')].filter(e=>e.href.includes('page')).forEach(e=> {
+                    e.addEventListener('click', function(e) {
+                        e.currentTarget.href = '/dashboard/surveys?page=' + e.currentTarget.href.split('=')[1];
+                    });
+                });
+            }, 1000);
+        </script>
     @endif
+
     <table class="table-fixed w-full">
         <thead>
             <tr class="bg-gray-100">
@@ -38,14 +48,16 @@
                 <td class="border px-4 py-2">{{ $survey->public }}</td>
                 <td class="border px-4 py-2">{{ $survey->created_at->diffForHumans() }}</td>
                 <td class="border px-4 py-2">{{ $survey->user->name }}</td>
-                <td class="border px-4 py-2">
+                <td class="border px-2 py-1">
                     <button wire:click="edit({{ $survey->id }})"
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">Edit</button>
                     <button wire:click="delete({{ $survey->id }})"
-                        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+                        class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">Delete</button>
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
+    <div style="margin-top:1em"></div>
+    {!! $surveys->links() !!}
 </div>

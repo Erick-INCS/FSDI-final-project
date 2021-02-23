@@ -20,8 +20,8 @@
                         {{ __('Blog Posts') }}
                     </x-jet-nav-link>
 
-                    <x-jet-nav-link href="{{ route('admin-survey') }}" :active="request()->routeIs('admin-surveys')">
-                        {{ __('Sureveys') }}
+                    <x-jet-nav-link href="{{ route('admin-survey') }}" :active="request()->routeIs('admin-survey')">
+                        {{ __('Surveys') }}
                     </x-jet-nav-link>
                 </div>
             </div>

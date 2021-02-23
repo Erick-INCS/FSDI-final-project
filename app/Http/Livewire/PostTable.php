@@ -4,21 +4,51 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Post;
+use illuminate\Http\Request;
 
 class PostTable extends Component
 {
     public $blogs, $title, $content, $post_id;
     public $isOpen = 0;
+    public $filter;
+
+    public function mount(Request $request)
+    {
+        $this->filter = $request->query('filter');
+    }
 
     public function render()
     {
-        return view('livewire.post-table', [
-            'posts' => Post::all()
-            // 'posts' => Post::latest()->with('user')->get()
-        ]);
+
+        if (!empty($this->filter)) {
+            $posts = Post::sortable()
+                ->where('post.name', 'like', '%'.$this->filter.'%')->get();
+        } else {
+            $posts = Post::sortable()->get();
+            echo 'empty';
+        }
+        return view('livewire.post-table')->with('posts', $posts)->with('filter', $this->filter);
+
+        // return view('livewire.post-table', [
+        //     'posts' => Post::sortable()->get()
+        //     // 'posts' => Post::latest()->with('user')->get()
+        // ]);
     }
-  
-    
+
+    public function indexFiltering(Request $request)
+    {
+        $filter = $request->query('filter');
+        if (!empty($filter)) {
+            $posts = Post::sortable()
+                ->where('post.name', 'like', '%'.$filter.'%')
+                ->get();
+        } else {
+            $posts = Post::sortable()
+                ->get();
+        }
+        return view('livewire.post-table')->with('posts', $posts)->with('filter', $filter);
+    }
+
     public function create()
     {
         $this->resetInputFields();
