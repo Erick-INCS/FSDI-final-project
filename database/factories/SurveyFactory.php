@@ -25,7 +25,7 @@ class SurveyFactory extends Factory
             'name' => $this->faker->sentence,
             'slug' => $this->faker->slug,
             'image' => $this->faker->imageUrl(1280, 720),
-            'config' => '[{"type":"select","options":["opt 1","opt 2"],"required":false,"caption":"[Select]"},{"type":"textarea","caption":"[-Textarea-]","required":false},{"type":"number","caption":"[*Number*]","min":0,"max":5},{"type":"text","caption":"..Text.."},{"type":"check","caption":"{[Check]}"}]',
+            'config' => '[{"type": "text", "label": "Simple text question?", "required": false}, {"type": "number", "label": "What is your favorite number?", "required": false}, {"type": "checkbox", "label": "27 is a prime number?", "required": false}, {"type": "radio", "label": "What of the following is the best algorithm?", "options": ["Linear Regression", "Logistic Regression", "Random Forest", "Multi Layer Perceptron", "K Means"], "required": false}, {"type": "checkbox", "label": "Select all the characteristics of the neural networks", "options": ["Require a lot of data", "Require labeled data", "Work better with normalized data", "More layers is better than the same number of layers with more neurons", "The training process requires a lot of computational power"], "required": false}]',
             'enabled' => 1,
             'responseLimit' => rand(2, 5),
             'aviableFrom' => $this->faker->dateTimeBetween('+0 days', '+5 days'),

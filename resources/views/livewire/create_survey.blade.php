@@ -13,29 +13,33 @@
                         <input class="hidden" type="number" wire:model="user_id">
                         
                         <div class="mb-4">
-                            <label for="exampleFormControlInput1" class="block text-gray-700 text-sm font-bold mb-2">Title:</label>
-                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="exampleFormControlInput1" placeholder="Enter Title" wire:model="name">
+                            <label for="txtSTitle" class="block text-gray-700 text-sm font-bold mb-2">Title:</label>
+                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline hidden" id="txtSTitle" placeholder="Enter Title" wire:model="name">
+                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="txtVTitle" placeholder="Enter Title">
                             @error('name') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
 
                         <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-bold mb-2">Aviable From:</label>
-                            <input type="datetime" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" wire:model="aviableFrom">
+                            <input id="txtSAvFrom" type="datetime" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline hidden" wire:model="aviableFrom">
+                            <input id="txtVAvFrom" type="datetime" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                             @error('aviableFrom') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
 
                         <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-bold mb-2">Aviable To:</label>
-                            <input type="datetime" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" wire:model="aviableTo">
+                            <input id="txtSAvTo" type="datetime" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline hidden" wire:model="aviableTo">
+                            <input id="txtVAvTo" type="datetime" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                             @error('aviableTo') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
 
                         <div class="mb-4">
-                            <label for="chEnabled" class="block text-gray-700 text-sm font-bold mb-2">Enabled:</label>
-                            <input type="checkbox" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="chEnabled" wire:model="enabled" >
+                            <label for="chVEnabled" class="block text-gray-700 text-sm font-bold mb-2">Enabled:</label>
+                            <input id="chSEnabled" type="checkbox" class="hidden shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="chEnabled" wire:model="enabled" >
+                            <input id="chVEnabled" type="checkbox" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="chEnabled" >
                             @error('enabled') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
-                        
+
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-3">Questions</h2>
 
                         <div class="mb-4 hidden">
@@ -52,9 +56,9 @@
                     </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    
+
                     <button id="btnSubmitO" class="hidden" wire:click.prevent="store()" type="button"></button>
-                    
+
                     <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                         <button id="btnSubmit" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5">
                         Save
@@ -71,7 +75,6 @@
     </div>
 </div>
 <script>
-alert('working...');
 const questionCard = () => `
 <div class="question bg-gray-200 rounded p-3 mt-2">
     <a href="javascript: void(0);" style="float:right;font-size:1.1em;">x</a>
@@ -210,6 +213,19 @@ function collectConfig() {
     return JSON.stringify(config);
 }
 
+let txtTitleH = document.getElementById('txtSTitle'),
+        txtTitleV = document.getElementById('txtVTitle'),
+        txtSAvFrom = document.getElementById('txtSAvFrom'),
+        txtVAvFrom = document.getElementById('txtVAvFrom'),
+        txtSAvTo = document.getElementById('txtSAvTo'),
+        txtVAvTo = document.getElementById('txtVAvTo'),
+        chSEnabled = document.getElementById('chSEnabled'),
+        chVEnabled = document.getElementById('chVEnabled');
+
+    txtTitleV.value = txtTitleH.value;
+    txtVAvFrom.value = txtSAvFrom.value;
+    txtVAvTo.value = txtSAvTo.value;
+    chVEnabled.checked = chSEnabled.checked;
 
 document.getElementById('btnSubmit').addEventListener('click', function (e) {
     let i = document.getElementById('inpConfig');
@@ -217,6 +233,30 @@ document.getElementById('btnSubmit').addEventListener('click', function (e) {
 
     let ev = new Event('input', {bubles:true, cancelable: true});
     i.dispatchEvent(ev);
+
+
+    let txtTitleH = document.getElementById('txtSTitle'),
+        txtTitleV = document.getElementById('txtVTitle'),
+        txtSAvFrom = document.getElementById('txtSAvFrom'),
+        txtVAvFrom = document.getElementById('txtVAvFrom'),
+        txtSAvTo = document.getElementById('txtSAvTo'),
+        txtVAvTo = document.getElementById('txtVAvTo'),
+        chSEnabled = document.getElementById('chSEnabled'),
+        chVEnabled = document.getElementById('chVEnabled');
+
+    txtTitleH.value = txtTitleV.value;
+    txtTitleH.dispatchEvent(new Event('input', {bubles:true, cancelable: true}));
+    
+    txtSAvFrom.value = txtVAvFrom.value;
+    txtSAvFrom.dispatchEvent(new Event('input', {bubles:true, cancelable: true}));
+    
+    txtSAvTo.value = txtVAvTo.value;
+    txtSAvTo.dispatchEvent(new Event('input', {bubles:true, cancelable: true}));
+    
+    chSEnabled.checked = chVEnabled.checked;
+    chSEnabled.dispatchEvent(new Event('input', {bubles:true, cancelable: true}));
+    chSEnabled.dispatchEvent(new Event('change', {bubles:true, cancelable: true}));
+    console.log(chSEnabled.checked, chVEnabled.checked);
 
     document.getElementById('btnSubmitO').click();
 });

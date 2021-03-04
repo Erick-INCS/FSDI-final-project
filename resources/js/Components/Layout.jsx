@@ -14,7 +14,7 @@ export default function Layout({ title, children }) {
     }
 
     return (
-            <div>
+            <div className="custom-container">
                 <nav className="navbar navbar-expand-lg navbar-light bg-light">
                     <div className="container-fluid">
                         <InertiaLink

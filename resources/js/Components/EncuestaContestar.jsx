@@ -1,74 +1,46 @@
-import React, { useState, useRef } from 'react'
-import { Select } from './Elementos/Select';
-import { Titulo } from './Elementos/Titulo';
-import { TextArea } from './Elementos/TextArea';
+import React, { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+
 
 let key = -1, ckey = 0, rkey = 0;
 let Respuestas = [];
 
-export const EncuestaContestar = () => {
+export const EncuestaContestar = (conf) => {
 
-    const [Show, setShow] = useState("Hide");
+    const { t, i18n } = useTranslation()
+
     const RespuestasRef = useRef(new Array());
 
-    let Preguntas = [{
-        "type": "checkbox",
-        "label": "Required, one or all responses can be checked",
-        "options": [
-            "opt 1",
-            "opt 2",
-            "opt 3",
-            "opt 4"
-        ],
-        "required": true
-    },
-    {
-        "type": "text",
-        "label": "Please type some text(textarea)",
-        "required": false
-    },
-    {
-        "type": "number",
-        "label": "Give me a number(required)",
-        "required": true
-    },
-    {
-        "type": "radio",
-        "label": "With radio buttons. (pick only one obviously)",
-        "options": [
-            "This option",
-            "Or this one",
-            "Or maybe this"
-        ],
-        "required": false
-    },
-    {
-        "type": "text",
-        "label": "Do you? . . .",
-        "required": true
-    }];
+    let Preguntas = conf.conf;
 
     let Respuesta = {
         Pregunta: "",
         Respuesta: ""
-    };
+    }, msgs = [];
 
     let Elemento;
     const GetQuestion = pregunta => {
         key++;
+        if (pregunta.type === 'checkbox' && !pregunta.options) {
+            pregunta.type = 'radio';
+            pregunta.options = ['Yes', 'No'];
+        }
+
         switch (pregunta.type) {
             case "checkbox":
                 Elemento = (
-                    <div className="Contestar__element Error" key={key}>
-                        <h2>{pregunta.label}</h2>
-                        <div id="checkbox" ref={(element) => RespuestasRef.current.push(element)} className="Contestar__element__option" required={pregunta.required}>
+                    <div className="mb-4" key={key}>
+                        <label qlabel="true" className="block text-gray-700 text-sm font-bold mb-2">{pregunta.label}</label>
+                        <div id="checkbox" ref={(element) => RespuestasRef.current.push(element)} className="" required={pregunta.required}>
                             {
                                 pregunta.options.map(a => {
                                     ckey++;
                                     return (
                                         <div id={pregunta.label} key={"c" + ckey} className="">
-                                            <input type="checkbox" id={a} name="radio" value={a} />
-                                            <label>{a}</label>
+                                            <label className="inline-flex items-center mt-1">
+                                                <input type="checkbox" id={a} name="radio" value={a} className="form-checkbox h-5 w-5 text-indigo-600" />
+                                                <span opt="true" className="ml-2 text-gray-700">{a}</span>
+                                            </label>
                                         </div>
                                     )
                                 })
@@ -86,9 +58,9 @@ export const EncuestaContestar = () => {
                 return Elemento;
             case "number":
                 Elemento = (
-                    <div className="Contestar__element" key={key}>
-                        <h2>{pregunta.label}</h2>
-                        <input id="number" ref={(element) => RespuestasRef.current.push(element)} type="number" className="number" required={pregunta.required} />
+                    <div className="mb-4" key={key}>
+                        <label qlabel="true" className="block text-gray-700 text-sm font-bold mb-2">{pregunta.label}</label>
+                        <input id="number" ref={(element) => RespuestasRef.current.push(element)} type="number" className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required={pregunta.required} />
                     </div>
                 )
 
@@ -101,9 +73,9 @@ export const EncuestaContestar = () => {
                 return Elemento;
             case "text":
                 Elemento = (
-                    <div className="Contestar__element" key={key}>
-                        <h2>{pregunta.label}</h2>
-                        <input id="text" ref={(element) => RespuestasRef.current.push(element)} className="Contestar__element__input" type="text" required={pregunta.required} />
+                    <div className="mb-4" key={key}>
+                        <label qlabel="true" className="block text-gray-700 text-sm font-bold mb-2">{pregunta.label}</label>
+                        <input id="text" ref={(element) => RespuestasRef.current.push(element)} className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" required={pregunta.required} />
                     </div>
                 )
 
@@ -116,21 +88,23 @@ export const EncuestaContestar = () => {
                 return Elemento;
             case "radio":
                 Elemento = (
-                    <div className="Contestar__element" key={key}>
-                        <h2>{pregunta.label}</h2>
-                        <div id="radio" ref={(element) => RespuestasRef.current.push(element)} className="Contestar__element__option" required={pregunta.required}>
-                            {
-                                pregunta.options.map(a => {
-                                    rkey++;
-                                    return (
-                                        <div id={pregunta.label} key={"r" + rkey} className="">
-                                            <input type="radio" id={a} name="radio" value={a} />
-                                            <label>{a}</label>
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
+                    <div className="mb-4" key={key}>
+                        <form>
+                            <label qlabel="true" className="block text-gray-700 text-sm font-bold mb-2">{pregunta.label}</label>
+                            <div id="radio" ref={(element) => RespuestasRef.current.push(element)} className="" required={pregunta.required}>
+                                {
+                                    pregunta.options.map(a => {
+                                        rkey++;
+                                        return (
+                                            <div id={pregunta.label} key={"r" + rkey} className="">
+                                                <input type="radio" id={a} name="radio" value={a} className="form-radio h-5 w-5 text-indigo-600" />
+                                                <span opt="true" className="ml-2 text-gray-700">{a}</span>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                        </form>
                     </div>
                 )
 
@@ -153,12 +127,49 @@ export const EncuestaContestar = () => {
         };
     }
 
+    const send = () => {
+
+        if(msgs.length) {
+            alert(msgs.join("\r\n"));
+            msgs = [];
+            return;
+        }
+
+        Respuestas = Respuestas.map(r => {
+            const type = Preguntas.find(p => p.label === r.Titulo).type;
+
+            switch (type) {
+                case 'checkbox':
+                case 'radio':
+                    r.Respuesta = r.Respuesta.filter(opt => opt.checked);
+                    break;
+            
+                default:
+                    r.Respuesta = r.Respuesta.length ? r.Respuesta[0] : '';
+                    break;
+            }
+
+            return r;
+        });
+
+        let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        fetch(document.location.pathname + '/response', {method: 'POST', headers: {'X-CSRF-TOKEN': token}, body: JSON.stringify(Respuestas)})
+        .then(r=>r.text()).then(r => {
+            if(r) {
+                document.location.pathname = document.location.pathname + '/thanks';
+            }
+        });
+
+        Respuestas = [];
+        msgs = [];
+    };
+
     const p = () => {
         let Pregunta = {
             Titulo: "",
             Respuesta: []
-        }
-        console.log(RespuestasRef.current)
+        };
+
         RespuestasRef.current.map(a => {
             Pregunta = {
                 Titulo: "",
@@ -166,54 +177,58 @@ export const EncuestaContestar = () => {
             }
 
             let vacio = false;
+            msgs = [];
+            Pregunta.Titulo = a.parentElement.querySelector('[qlabel]').innerText;
             switch (a.id) {
                 case "number":
                     if (a.required === false && a.value !== "") {
-                        Pregunta.Titulo = a.parentElement.children[0].innerText;
                         Pregunta.Respuesta.push(a.value)
                     }
                     if (a.required === false && a.value === "") {
                         // Hacer algo en caso de que la pregunta sea requerida pero no se halla completado
-                        alert("Pregunta requerida")
+                        // alert("Pregunta requerida")
+                        vacio = true;
                     }
                     if (a.value === "") {
-                        vacio = true
+                        // vacio = true;
                     }
                     break;
                 case "text":
                     if (a.required === false && a.value !== "") {
-                        Pregunta.Titulo = a.parentElement.children[0].innerText;
                         Pregunta.Respuesta.push(a.value)
                     }
                     if (a.required === false && a.value === "") {
                         // Hacer algo en caso de que la pregunta sea requerida pero no se halla completado
-                        alert("Pregunta requerida")
+                        vacio = true
+                        // alert("Pregunta requerida")
                     }
                     if (a.value === "") {
-                        vacio = true
+                        // vacio = true
                     }
                     break;
                 case "checkbox":
-                    Pregunta.Titulo = a.parentElement.children[0].innerText;
-
                     for (let i = 0; i < a.children.length; i++) {
-                        const e = a.children[i];
-                        if (e.children[0].checked === false && Pregunta.Respuesta.length === 0) {
-                            vacio = true
+                        const e = a.children[i],
+                        ch = e.querySelector('input[type="checkbox"]'),
+                        lbl = e.querySelector('[opt]');
+
+                        if (ch.checked === false && Pregunta.Respuesta.length === 0) {
+                            vacio = true;
                         }
                         else {
                             let resp = {
-                                opcion: e.children[1].innerText,
-                                checked: e.children[0].checked
+                                opcion: lbl.innerText,
+                                checked: ch.checked
                             }
-                            Pregunta.Respuesta.push(resp)
-                            vacio = false
+                            Pregunta.Respuesta.push(resp);
+                            vacio = false;
                         }
                     }
 
                     if (a.required === true && Pregunta.Respuesta.length === 0) {
                         // Hacer algo en caso de que la pregunta sea requerida pero no se halla completado
-                        alert("Pregunta requerida")
+                        vacio = true
+                        // alert("Pregunta requerida")
                     }
                     break;
                 case "radio":
@@ -236,29 +251,36 @@ export const EncuestaContestar = () => {
 
                     if (a.required === true && Pregunta.Respuesta.length === 0) {
                         // Hacer algo en caso de que la pregunta sea requerida pero no se halla completado
-                        alert("Pregunta requerida")
+                        vacio = true
+                        // alert("Pregunta requerida")
                     }
                     break;
                 default:
                     break;
             }
             if (!vacio) {
-                console.log(a.id)
                 Respuestas.push(Pregunta)
+            } else {
+                msgs.push(`Please answer question "${Pregunta.Titulo}"`);
             }
         })
-        console.log(Respuestas)
+
+        send();
     }
 
     return (
         <div className="Contestar__main">
-            {
-                Preguntas.map(a => {
-                    return GetQuestion(a)
-                })
-            }
+            <div className="card my-3">
+                <div className="card-body">
+                    {
+                        Preguntas.map(a => {
+                            return GetQuestion(a)
+                        })
+                    }
+                </div>
+            </div>
             <div>
-                <button onClick={p}>Finalizar</button>
+                <button className="btn btn-success" onClick={p}>{t('Finalizar')}</button>
             </div>
         </div>
     )

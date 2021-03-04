@@ -36193,6 +36193,14 @@ var map = {
 	"./post.jsx": [
 		"./resources/js/Pages/post.jsx",
 		"resources_js_Pages_post_jsx"
+	],
+	"./survey-thanks": [
+		"./resources/js/Pages/survey-thanks.jsx",
+		"resources_js_Pages_survey-thanks_jsx"
+	],
+	"./survey-thanks.jsx": [
+		"./resources/js/Pages/survey-thanks.jsx",
+		"resources_js_Pages_survey-thanks_jsx"
 	]
 };
 function webpackAsyncContext(req) {
@@ -36289,7 +36297,7 @@ module.exports = webpackAsyncContext;
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_Pages_Survey_jsx":1,"resources_js_Pages_home_jsx":1,"resources_js_Pages_post_jsx":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_Pages_Survey_jsx":1,"resources_js_Pages_home_jsx":1,"resources_js_Pages_post_jsx":1,"resources_js_Pages_survey-thanks_jsx":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

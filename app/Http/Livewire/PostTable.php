@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Models\Post;
 use illuminate\Http\Request;
 
@@ -12,6 +13,8 @@ class PostTable extends Component
     public $isOpen = 0;
     public $filter;
 
+    use WithPagination;
+
     public function mount(Request $request)
     {
         $this->filter = $request->query('filter');
@@ -19,13 +22,16 @@ class PostTable extends Component
 
     public function render()
     {
+        // echo var_dump($this->title);
+        // echo '/<br>';
+        // echo var_dump($filter);
 
         if (!empty($this->filter)) {
             $posts = Post::sortable()
-                ->where('post.name', 'like', '%'.$this->filter.'%')->get();
+                ->where('posts.name', 'like', '%'.$this->filter.'%')->paginate(7);//->get();
         } else {
-            $posts = Post::sortable()->get();
-            echo 'empty';
+            $posts = Post::sortable()->paginate(7);;
+            // echo 'empty';
         }
         return view('livewire.post-table')->with('posts', $posts)->with('filter', $this->filter);
 

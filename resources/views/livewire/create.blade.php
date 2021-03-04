@@ -4,8 +4,9 @@
             <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
         </div>
         <!-- This element is to trick the browser into centering the modal contents. -->
-        <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>?
-        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>
+        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline"
+        style="max-width: 85vw;">
             <form>
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="">
@@ -15,17 +16,20 @@
                             @error('title') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         <div class="mb-4">
+                            <div id="newtxt"></div>
                             <label for="exampleFormControlInput2" class="block text-gray-700 text-sm font-bold mb-2">Body:</label>
-                            <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="exampleFormControlInput2" wire:model="content" placeholder="Enter Body"></textarea>
+                            <textarea id="0" data-count="0" posttxt class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="exampleFormControlInput2" wire:model="content" placeholder="Enter Body"></textarea>
                             @error('content') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                     </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                     <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                        <button wire:click.prevent="store()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                        <button id="saveBTN" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5">
                         Save
                         </button>
+
+                        <button id="realBtn" wire:click.prevent="store()" type="button" class="hidden">Save</button>
                     </span>
                     <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
                         <button wire:click="closeModal()" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
@@ -36,4 +40,39 @@
             </form>
         </div>
     </div>
+    <script>
+    // let prevTxt = document.getElementById('txt'),
+    // newTxt = document.getElementById('newtxt'),
+    // txt = document.getElementById('posttxt');
+
+    // //newTxt.appendChild(prevTxt);
+    // prevTxt.classList.remove('hidden');
+
+    function initialize(count=0) {
+        tinymce.init({
+            selector: '#' + count,
+            plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+            toolbar_mode: 'floating',
+            height: '60vh',
+        }).then(function (res) {
+            if (!res.length) {
+                const elm = document.querySelector('[posttxt]');
+                count++;
+                elm.id = count;
+                initialize(count);
+            }
+        });
+    }
+
+    initialize();
+
+    document.getElementById('saveBTN').addEventListener('click', function(ev) {
+        const e = document.querySelector('[posttxt]');
+        e.value = tinymce.activeEditor.getContent();
+        e.dispatchEvent(new Event('input', {bubles:true, cancelable: true}));
+        document.getElementById('realBtn').click();
+    });
+
+    // alert('tinymce.activeEditor.getContent()');
+    </script>
 </div>

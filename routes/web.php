@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use Inertia\Inertia;
+use App\Models\Survey;
+use App\Models\Response;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,12 +28,20 @@ Route::get('/post/{post:slug}', [PageController::class, 'post'])->name('post');
 Route::get('/survey/{survey:slug}', [PageController::class, 'survey'])->name('survey');
 // Admin panel
 
+Route::post('/survey/{survey:slug}/response', [PageController::class, 'survey_response'])->name('survey_response');
+Route::get('/survey/{survey:slug}/thanks', [PageController::class, 'survey_thanks'])->name('survey_thanks');
 // Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function() {
 //     return view('dashboard');
 // });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
+
+    $sessions = Tracker::sessions(60 * 24);
+    $visitor = Tracker::currentSession();
+
+    return view('dashboard', [
+        'something' => $sessions
+    ]);
 })->name('dashboard');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/posts', function () {
@@ -41,3 +51,10 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/posts', functio
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/surveys', function () {
     return view('admin-survey');
 })->name('admin-survey');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/survey/{survey:slug}', function (Survey $survey) {
+    return view('admin-survey-responses', [
+        'responses' => Response::where('survey_id', $survey->id)->get(),
+        'questions' => $survey->config,
+    ]);
+})->name('admin-survey-responses');

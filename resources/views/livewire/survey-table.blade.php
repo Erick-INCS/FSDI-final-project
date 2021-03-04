@@ -53,6 +53,8 @@
                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">Edit</button>
                     <button wire:click="delete({{ $survey->id }})"
                         class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">Delete</button>
+                    <br/>
+                    <a href="/dashboard/survey/{{$survey->slug}}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded mt-3" style="margin-top: 2em;">View</a>
                 </td>
             </tr>
             @endforeach

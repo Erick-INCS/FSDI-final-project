@@ -128,6 +128,354 @@ module.exports = _unsupportedIterableToArray;
 
 /***/ }),
 
+/***/ "./resources/js/Components/EncuestaContestar.jsx":
+/*!*******************************************************!*\
+  !*** ./resources/js/Components/EncuestaContestar.jsx ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "EncuestaContestar": () => (/* binding */ EncuestaContestar)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_i18next__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-i18next */ "./node_modules/react-i18next/dist/es/useTranslation.js");
+
+
+var key = -1,
+    ckey = 0,
+    rkey = 0;
+var Respuestas = [];
+var EncuestaContestar = function EncuestaContestar(conf) {
+  var _useTranslation = (0,react_i18next__WEBPACK_IMPORTED_MODULE_1__.useTranslation)(),
+      t = _useTranslation.t,
+      i18n = _useTranslation.i18n;
+
+  var RespuestasRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(new Array());
+  var Preguntas = conf.conf;
+  var Respuesta = {
+    Pregunta: "",
+    Respuesta: ""
+  },
+      msgs = [];
+  var Elemento;
+
+  var GetQuestion = function GetQuestion(pregunta) {
+    key++;
+
+    if (pregunta.type === 'checkbox' && !pregunta.options) {
+      pregunta.type = 'radio';
+      pregunta.options = ['Yes', 'No'];
+    }
+
+    switch (pregunta.type) {
+      case "checkbox":
+        Elemento = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+          className: "mb-4",
+          key: key
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+          qlabel: "true",
+          className: "block text-gray-700 text-sm font-bold mb-2"
+        }, pregunta.label), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+          id: "checkbox",
+          ref: function ref(element) {
+            return RespuestasRef.current.push(element);
+          },
+          className: "",
+          required: pregunta.required
+        }, pregunta.options.map(function (a) {
+          ckey++;
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+            id: pregunta.label,
+            key: "c" + ckey,
+            className: ""
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+            className: "inline-flex items-center mt-1"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+            type: "checkbox",
+            id: a,
+            name: "radio",
+            value: a,
+            className: "form-checkbox h-5 w-5 text-indigo-600"
+          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+            opt: "true",
+            className: "ml-2 text-gray-700"
+          }, a)));
+        })));
+        Respuesta = {
+          Pregunta: pregunta.label,
+          Respuesta: RespuestasRef[key]
+        };
+        SaveRespuesta();
+        return Elemento;
+
+      case "number":
+        Elemento = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+          className: "mb-4",
+          key: key
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+          qlabel: "true",
+          className: "block text-gray-700 text-sm font-bold mb-2"
+        }, pregunta.label), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+          id: "number",
+          ref: function ref(element) {
+            return RespuestasRef.current.push(element);
+          },
+          type: "number",
+          className: "appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+          required: pregunta.required
+        }));
+        Respuesta = {
+          Pregunta: pregunta.label,
+          Respuesta: RespuestasRef[key]
+        };
+        SaveRespuesta();
+        return Elemento;
+
+      case "text":
+        Elemento = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+          className: "mb-4",
+          key: key
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+          qlabel: "true",
+          className: "block text-gray-700 text-sm font-bold mb-2"
+        }, pregunta.label), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+          id: "text",
+          ref: function ref(element) {
+            return RespuestasRef.current.push(element);
+          },
+          className: "appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+          type: "text",
+          required: pregunta.required
+        }));
+        Respuesta = {
+          Pregunta: pregunta.label,
+          Respuesta: RespuestasRef[key]
+        };
+        SaveRespuesta();
+        return Elemento;
+
+      case "radio":
+        Elemento = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+          className: "mb-4",
+          key: key
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+          qlabel: "true",
+          className: "block text-gray-700 text-sm font-bold mb-2"
+        }, pregunta.label), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+          id: "radio",
+          ref: function ref(element) {
+            return RespuestasRef.current.push(element);
+          },
+          className: "",
+          required: pregunta.required
+        }, pregunta.options.map(function (a) {
+          rkey++;
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+            id: pregunta.label,
+            key: "r" + rkey,
+            className: ""
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+            type: "radio",
+            id: a,
+            name: "radio",
+            value: a,
+            className: "form-radio h-5 w-5 text-indigo-600"
+          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+            opt: "true",
+            className: "ml-2 text-gray-700"
+          }, a));
+        }))));
+        Respuesta = {
+          Pregunta: pregunta.label,
+          Respuesta: RespuestasRef[key]
+        };
+        SaveRespuesta();
+        return Elemento;
+
+      default:
+        break;
+    }
+  };
+
+  var SaveRespuesta = function SaveRespuesta() {
+    Respuesta = {
+      Pregunta: "",
+      Respuesta: ""
+    };
+  };
+
+  var send = function send() {
+    if (msgs.length) {
+      alert(msgs.join("\r\n"));
+      msgs = [];
+      return;
+    }
+
+    Respuestas = Respuestas.map(function (r) {
+      var type = Preguntas.find(function (p) {
+        return p.label === r.Titulo;
+      }).type;
+
+      switch (type) {
+        case 'checkbox':
+        case 'radio':
+          r.Respuesta = r.Respuesta.filter(function (opt) {
+            return opt.checked;
+          });
+          break;
+
+        default:
+          r.Respuesta = r.Respuesta.length ? r.Respuesta[0] : '';
+          break;
+      }
+
+      return r;
+    });
+    var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    fetch(document.location.pathname + '/response', {
+      method: 'POST',
+      headers: {
+        'X-CSRF-TOKEN': token
+      },
+      body: JSON.stringify(Respuestas)
+    }).then(function (r) {
+      return r.text();
+    }).then(function (r) {
+      if (r) {
+        document.location.pathname = document.location.pathname + '/thanks';
+      }
+    });
+    Respuestas = [];
+    msgs = [];
+  };
+
+  var p = function p() {
+    var Pregunta = {
+      Titulo: "",
+      Respuesta: []
+    };
+    RespuestasRef.current.map(function (a) {
+      Pregunta = {
+        Titulo: "",
+        Respuesta: []
+      };
+      var vacio = false;
+      msgs = [];
+      Pregunta.Titulo = a.parentElement.querySelector('[qlabel]').innerText;
+
+      switch (a.id) {
+        case "number":
+          if (a.required === false && a.value !== "") {
+            Pregunta.Respuesta.push(a.value);
+          }
+
+          if (a.required === false && a.value === "") {
+            // Hacer algo en caso de que la pregunta sea requerida pero no se halla completado
+            // alert("Pregunta requerida")
+            vacio = true;
+          }
+
+          if (a.value === "") {// vacio = true;
+          }
+
+          break;
+
+        case "text":
+          if (a.required === false && a.value !== "") {
+            Pregunta.Respuesta.push(a.value);
+          }
+
+          if (a.required === false && a.value === "") {
+            // Hacer algo en caso de que la pregunta sea requerida pero no se halla completado
+            vacio = true; // alert("Pregunta requerida")
+          }
+
+          if (a.value === "") {// vacio = true
+          }
+
+          break;
+
+        case "checkbox":
+          for (var i = 0; i < a.children.length; i++) {
+            var e = a.children[i],
+                ch = e.querySelector('input[type="checkbox"]'),
+                lbl = e.querySelector('[opt]');
+
+            if (ch.checked === false && Pregunta.Respuesta.length === 0) {
+              vacio = true;
+            } else {
+              var resp = {
+                opcion: lbl.innerText,
+                checked: ch.checked
+              };
+              Pregunta.Respuesta.push(resp);
+              vacio = false;
+            }
+          }
+
+          if (a.required === true && Pregunta.Respuesta.length === 0) {
+            // Hacer algo en caso de que la pregunta sea requerida pero no se halla completado
+            vacio = true; // alert("Pregunta requerida")
+          }
+
+          break;
+
+        case "radio":
+          Pregunta.Titulo = a.parentElement.children[0].innerText;
+
+          for (var _i = 0; _i < a.children.length; _i++) {
+            var _e = a.children[_i];
+
+            if (_e.children[0].checked === false && Pregunta.Respuesta.length === 0) {
+              vacio = true;
+            } else {
+              var _resp = {
+                opcion: _e.children[1].innerText,
+                checked: _e.children[0].checked
+              };
+              Pregunta.Respuesta.push(_resp);
+              vacio = false;
+            }
+          }
+
+          if (a.required === true && Pregunta.Respuesta.length === 0) {
+            // Hacer algo en caso de que la pregunta sea requerida pero no se halla completado
+            vacio = true; // alert("Pregunta requerida")
+          }
+
+          break;
+
+        default:
+          break;
+      }
+
+      if (!vacio) {
+        Respuestas.push(Pregunta);
+      } else {
+        msgs.push("Please answer question \"".concat(Pregunta.Titulo, "\""));
+      }
+    });
+    send();
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "Contestar__main"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "card my-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "card-body"
+  }, Preguntas.map(function (a) {
+    return GetQuestion(a);
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    className: "btn btn-success",
+    onClick: p
+  }, t('Finalizar'))));
+};
+
+/***/ }),
+
 /***/ "./resources/js/Components/Layout.jsx":
 /*!********************************************!*\
   !*** ./resources/js/Components/Layout.jsx ***!
@@ -160,7 +508,9 @@ function Layout(_ref) {
     i18n.changeLanguage(event.target.value);
   };
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("nav", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "custom-container"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("nav", {
     className: "navbar navbar-expand-lg navbar-light bg-light"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "container-fluid"
@@ -241,7 +591,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _Components_Layout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Components/Layout */ "./resources/js/Components/Layout.jsx");
 /* harmony import */ var _inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
-/* harmony import */ var react_i18next__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-i18next */ "./node_modules/react-i18next/dist/es/useTranslation.js");
+/* harmony import */ var react_i18next__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-i18next */ "./node_modules/react-i18next/dist/es/useTranslation.js");
+/* harmony import */ var _Components_EncuestaContestar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Components/EncuestaContestar */ "./resources/js/Components/EncuestaContestar.jsx");
+
 
 
 
@@ -250,13 +602,14 @@ __webpack_require__.r(__webpack_exports__);
 var Survey = function Survey() {
   var survey = (0,_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_2__.usePage)().props.survey;
 
-  var _useTranslation = (0,react_i18next__WEBPACK_IMPORTED_MODULE_3__.useTranslation)(),
+  var _useTranslation = (0,react_i18next__WEBPACK_IMPORTED_MODULE_4__.useTranslation)(),
       t = _useTranslation.t;
 
-  console.log(survey);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "main-content mt-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, survey.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", null), survey.config);
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, survey.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Components_EncuestaContestar__WEBPACK_IMPORTED_MODULE_3__.EncuestaContestar, {
+    conf: JSON.parse(survey.config)
+  }));
 };
 
 Survey.layout = function (page) {

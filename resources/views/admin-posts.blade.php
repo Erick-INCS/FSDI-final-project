@@ -1,4 +1,5 @@
 <x-app-layout>
+<script src="https://cdn.tiny.cloud/1/uz069s1gf7jedtp9k8cgqst6rdg65vw9mb4mmxpg3w3f4dur/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Blog Posts') }}

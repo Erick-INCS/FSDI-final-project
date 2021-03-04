@@ -2,18 +2,16 @@ import React from "react";
 import Layout from "../Components/Layout";
 import { usePage } from "@inertiajs/inertia-react";
 import { useTranslation } from 'react-i18next';
+import { EncuestaContestar } from "../Components/EncuestaContestar";
 
 const Survey = () => {
     const {survey} = usePage().props;
     const { t } = useTranslation();
 
-    console.log(survey);
-
     return (
         <div className="main-content mt-4">
             <h1>{survey.name}</h1>
-            <hr></hr>
-            {(survey.config)}
+            <EncuestaContestar conf={JSON.parse(survey.config)}></EncuestaContestar>
         </div>
     );
 };
