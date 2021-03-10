@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { EncuestaContestar } from "../Components/EncuestaContestar";
 
 const Survey = () => {
-    const {survey} = usePage().props;
+    const {surveyData: {survey}} = usePage().props;
     const { t } = useTranslation();
 
     return (
@@ -16,7 +16,7 @@ const Survey = () => {
     );
 };
 
-Survey.layout = (page) => <Layout children={page} title="Survey" />;
+Survey.layout = (page) => <Layout children={page} title={"Appname - " + page.props.surveyData.survey.name} />;
 export default Survey;
 
 /*

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Survey;
 use App\Models\Response;
+use App\Models\UserType;
+use App\Models\Category;
 use DateTime;
 use Inertia\Inertia;
 use App\Models\SurveyResponses;
@@ -13,18 +15,44 @@ use App\Models\SurveyResponses;
 class PageController extends Controller
 {
     public function home() {
+        $types = UserType::all();
+        $posts = [];
+
+        foreach ($types as $tp) {
+            $posts[$tp->name] = Post::latest()->with('user')->where('usr_type_id', $tp->id)->take(8)->get();
+        }
+
         return Inertia::render('home', [
-            'posts' => Post::latest()->with('user')->take(9)->get()            
+            'posts' => $posts,
+            'types' => $types,
+            'categories' => Category::all(),
         ]);
         //return view('index');
     }
 
     public function post(Post $post) {
+        $types = UserType::all();
+
         return Inertia::render('post', [
             'p' => compact('post'),
-            'similar' => $post->sameCat()
+            'similar' => $post->sameCat(),
+            'categories' => Category::all(),
+            'types' => $types,
         ]);
     }
+
+
+    public function category(Category $category) {
+        $types = UserType::all();
+
+        return Inertia::render('category', [
+            'cat' => compact('category'),
+            'posts' => $category->posts,
+            'categories' => Category::all(),
+            'types' => $types,
+        ]);
+    }
+
 
     public function survey_response(Survey $survey, Request $request) {
         $data = json_decode($request->getContent(), TRUE);
@@ -37,13 +65,17 @@ class PageController extends Controller
             'ip' => $request->ip(),
             'survey_id' => $survey->id,
             'data' => $request->getContent(),
-            'survey_id' => $survey->id
+            'survey_id' => $survey->id,
+            'categories' => Category::all(),
         ]);
     }
 
 
     public function survey_thanks(Survey $survey) {
-        return Inertia::render('survey-thanks', compact('survey'));
+        return Inertia::render('survey-thanks', [
+            'srv' => compact('survey'),
+            'categories' => Category::all(),
+            ]);
     }
 
     public function survey(Survey $survey) {
@@ -60,6 +92,10 @@ class PageController extends Controller
         if ($start_date > $current_date) {
             return redirect('/');
         }
-        return Inertia::render('Survey', compact('survey'));
+
+        return Inertia::render('Survey', [
+            'surveyData' =>compact('survey'),
+            'categories' => Category::all(),
+        ]);
     }
 }

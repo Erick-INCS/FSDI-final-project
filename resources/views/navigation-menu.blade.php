@@ -23,6 +23,14 @@
                     <x-jet-nav-link href="{{ route('admin-survey') }}" :active="request()->routeIs('admin-survey')">
                         {{ __('Surveys') }}
                     </x-jet-nav-link>
+
+                    <x-jet-nav-link href="{{ route('admin-categories') }}" :active="request()->routeIs('admin-categories')">
+                        {{ __('Categories') }}
+                    </x-jet-nav-link>
+
+                    <x-jet-nav-link href="{{ route('admin-user-types') }}" :active="request()->routeIs('admin-user-types')">
+                        {{ __('User Types') }}
+                    </x-jet-nav-link>
                 </div>
             </div>
 

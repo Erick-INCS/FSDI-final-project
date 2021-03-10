@@ -1,8 +1,10 @@
-import React from 'react'
-import {InertiaLink} from '@inertiajs/inertia-react'
+import React from 'react';
+import {InertiaLink} from '@inertiajs/inertia-react';
+import {useTranslation} from 'react-i18next';
 
 export default function PostCard(props) {
-    const {alt, image, name, extract, slug} = props;
+    const { i18n, t } = useTranslation();
+    const {alt, image, name, name_ES, extract, slug} = props;
 
     function MyComponent() {
         return <div dangerouslySetInnerHTML={{__html: extract}} />;
@@ -13,11 +15,11 @@ export default function PostCard(props) {
                 <img src={image} alt="Sample"></img>
             </div>
             <div className="card-body px-md-5 pb-md-4 pt-md-5">
-                <h3>{name}</h3>
+                <h3>{i18n.language === 'en' ? name : name_ES}</h3>
 
                 <MyComponent></MyComponent>
                 <div className="custom-card-footer">
-                    <InertiaLink href={`/post/${slug}`} className="btn btn-sm btn-custom-light">Read more</InertiaLink>
+                    <InertiaLink href={`/post/${slug}`} className="btn btn-sm btn-custom-light">{t('Read more')}</InertiaLink>
                 </div>
             </div>
         </div>

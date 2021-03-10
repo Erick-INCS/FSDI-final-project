@@ -23,9 +23,11 @@ class PostFactory extends Factory
     {
         return [
             'name' => $this->faker->sentence,
+            'name_ES' => $this->faker->sentence,
             'slug' => $this->faker->slug,
             'image' => $this->faker->imageUrl(1280, 720),
-            'content' => $this->faker->text(800),
+            'content' => $this->faker->text(900),
+            'content_ES' => $this->faker->text(900),
             'enabled' => 1,
             'user_id' => rand(1, 5),
             'usr_type_id' => rand(1, 3),

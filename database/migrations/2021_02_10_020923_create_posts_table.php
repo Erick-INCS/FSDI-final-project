@@ -19,9 +19,11 @@ class CreatePostsTable extends Migration
             $table->unsignedBigInteger('usr_type_id');
 
             $table->string('name');
+            $table->string('name_ES');
             $table->string('slug');
             $table->string('image');
             $table->text('content');
+            $table->text('content_ES');
             $table->boolean('enabled')->default(0);
 
             $table->timestamps();

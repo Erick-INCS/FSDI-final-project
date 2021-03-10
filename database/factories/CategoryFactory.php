@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\UserType;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class UserTypeFactory extends Factory
+class CategoryFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = UserType::class;
+    protected $model = Category::class;
 
     /**
      * Define the model's default state.
@@ -21,11 +21,11 @@ class UserTypeFactory extends Factory
      */
     public function definition()
     {
+        $en_name = $this->faker->word;
         return [
-            'name' => $this->faker->word,
-            'nameES' => $this->faker->word,
-            'descES' => $this->faker->sentence,
-            'descENG' => $this->faker->sentence,
+            'ES_name' => $this->faker->word,
+            'EN_name' => $en_name,
+            'slug' => $en_name,
         ];
     }
 }

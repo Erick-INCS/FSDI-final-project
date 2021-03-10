@@ -1,13 +1,12 @@
 import React from "react";
 import Layout from "../Components/Layout";
-import { usePage } from "@inertiajs/inertia-react";
-import PostCard from "../Components/PostCard";
+import { usePage, InertiaLink } from "@inertiajs/inertia-react";
 import { useTranslation } from 'react-i18next';
 import PostMini from "../Components/PostMini";
 
 const Home = () => {
     const {p, similar} = usePage().props;
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     let post = p.post;
 
     return (
@@ -15,9 +14,8 @@ const Home = () => {
 
         <nav aria-label="breadcrumb" className="mt-4 mt-md-5">
             <ol className="breadcrumb">
-                <li className="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li className="breadcrumb-item"><a href="#">Category</a></li>
-                <li className="breadcrumb-item active" aria-current="page">{post.name}</li>
+                <li className="breadcrumb-item"><InertiaLink href="/">{t('home')}</InertiaLink></li>
+                <li className="breadcrumb-item active" aria-current="page">{i18n.language === 'en' ? post.name : post.name_ES}</li>
             </ol>
         </nav>
 
@@ -29,38 +27,20 @@ const Home = () => {
                 </section>
         
                 <div className="post-card details p-5">
-                    <h3>{post.name}</h3>
-                    <p>{post.content}</p>
-                    <video src="/img/video.mp4" preload="auto" autoPlay muted loop></video>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Provident nobis dolorem iusto adipisci quasi architecto incidunt impedit tempora aperiam, qui, veritatis quisquam nemo ipsum modi laboriosam accusamus. Quidem, quas perferendis.</p>
-                    <ul className="mx-md-3">
-                        <li>
-                            <p>text for one element of this list</p>
-                        </li>
-                        <li>
-                            <p>text for one element of this list</p>
-                        </li>
-                        <li>
-                            <p>text for one element of this list</p>
-                        </li>
-                        <li>
-                            <p>text for one element of this list</p>
-                        </li>
-                    </ul>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Provident nobis dolorem iusto adipisci quasi architecto incidunt impedit tempora aperiam, qui, veritatis quisquam nemo ipsum modi laboriosam accusamus. Quidem, quas perferendis.</p>
-                    
+                    <h3>{i18n.language === 'en' ? post.name : post.name_ES}</h3>
+                    <div dangerouslySetInnerHTML={{__html: i18n.language === 'en' ? post.content : post.content_ES}} />
                 </div>
             </div>
 
             <div className="col-4" id="left">
 
-                {similar.map((s, i) => <PostMini key={i} name={s.name} slug={s.slug} image={s.image} extract={s.content.split(' ').filter((_, i) => i < 10).join(" ")}></PostMini>)}
+                {similar.map((s, i) => <PostMini key={i} name={i18n.language === 'en' ? s.name : s.name_ES} slug={s.slug} image={s.image} extract={(i18n.language === 'en' ? s.content : s.content_ES).split(' ').filter((_, i) => i < 10).join(" ")}></PostMini>)}
 
             </div>
         
-            <div className="container col-12">
+            <div className="container col-12 d-none">
         
-                <form action="" className="mt-5 mb-5 message">
+                {/* <form action="" className="mt-5 mb-5 message">
                     <div className="row m-0">
             
                         <div className="col-10">
@@ -89,12 +69,12 @@ const Home = () => {
                     <p>
                         Martin - Hello!
                     </p>
-                </div>
+                </div> */}
             </div>
         </div>
     </div>
     );
 };
 
-Home.layout = (page) => <Layout children={page} title="Post" />;
+Home.layout = (page) => <Layout children={page} title={"Appname - " + page.props.p.post.name} />;
 export default Home;

@@ -1,4 +1,4 @@
-(self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_Pages_post_jsx"],{
+(self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_Pages_category_jsx"],{
 
 /***/ "./node_modules/@babel/runtime/helpers/arrayLikeToArray.js":
 /*!*****************************************************************!*\
@@ -302,45 +302,66 @@ function Layout(_ref) {
 
 /***/ }),
 
-/***/ "./resources/js/Components/PostMini.jsx":
+/***/ "./resources/js/Components/PostCard.jsx":
 /*!**********************************************!*\
-  !*** ./resources/js/Components/PostMini.jsx ***!
+  !*** ./resources/js/Components/PostCard.jsx ***!
   \**********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ PostMini)
+/* harmony export */   "default": () => (/* binding */ PostCard)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
+/* harmony import */ var react_i18next__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-i18next */ "./node_modules/react-i18next/dist/es/useTranslation.js");
 
-function PostMini(_ref) {
-  var name = _ref.name,
-      extract = _ref.extract,
-      slug = _ref.slug,
-      image = _ref.image;
+
+
+function PostCard(props) {
+  var _useTranslation = (0,react_i18next__WEBPACK_IMPORTED_MODULE_2__.useTranslation)(),
+      i18n = _useTranslation.i18n,
+      t = _useTranslation.t;
+
+  var alt = props.alt,
+      image = props.image,
+      name = props.name,
+      name_ES = props.name_ES,
+      extract = props.extract,
+      slug = props.slug;
+
+  function MyComponent() {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      dangerouslySetInnerHTML: {
+        __html: extract
+      }
+    });
+  }
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "card post-card sub-post ms-4"
+    className: "card post-card ".concat(alt ? 'post-card-alt' : '')
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "image-container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
     src: image,
-    alt: "similar post image"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "card-body"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, extract, " ..."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    alt: "Sample"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "card-body px-md-5 pb-md-4 pt-md-5"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, i18n.language === 'en' ? name : name_ES), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(MyComponent, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "custom-card-footer"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", {
-    href: slug,
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__.InertiaLink, {
+    href: "/post/".concat(slug),
     className: "btn btn-sm btn-custom-light"
-  }, "Read more"))));
+  }, t('Read more')))));
 }
 
 /***/ }),
 
-/***/ "./resources/js/Pages/post.jsx":
-/*!*************************************!*\
-  !*** ./resources/js/Pages/post.jsx ***!
-  \*************************************/
+/***/ "./resources/js/Pages/category.jsx":
+/*!*****************************************!*\
+  !*** ./resources/js/Pages/category.jsx ***!
+  \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -351,24 +372,47 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _Components_Layout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Components/Layout */ "./resources/js/Components/Layout.jsx");
 /* harmony import */ var _inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
+/* harmony import */ var _Components_PostCard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Components/PostCard */ "./resources/js/Components/PostCard.jsx");
 /* harmony import */ var react_i18next__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-i18next */ "./node_modules/react-i18next/dist/es/useTranslation.js");
-/* harmony import */ var _Components_PostMini__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Components/PostMini */ "./resources/js/Components/PostMini.jsx");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
 
 
 
-var Home = function Home() {
+
+var Category = function Category() {
   var _usePage$props = (0,_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_2__.usePage)().props,
-      p = _usePage$props.p,
-      similar = _usePage$props.similar;
+      posts = _usePage$props.posts,
+      cat = _usePage$props.cat;
+  var category = cat.category;
 
   var _useTranslation = (0,react_i18next__WEBPACK_IMPORTED_MODULE_4__.useTranslation)(),
       t = _useTranslation.t,
       i18n = _useTranslation.i18n;
 
-  var post = p.post;
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(document.CCId),
+      _useState2 = _slicedToArray(_useState, 2),
+      utype = _useState2[0],
+      setUtype = _useState2[1];
+
+  document.changedCat = function (cat, cat_id) {
+    document.CCId = cat_id;
+    document.CC = cat;
+    setUtype(cat_id);
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "main-content"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("nav", {
@@ -381,48 +425,44 @@ var Home = function Home() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_2__.InertiaLink, {
     href: "/"
   }, t('home'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    className: "breadcrumb-item active",
-    "aria-current": "page"
-  }, i18n.language === 'en' ? post.name : post.name_ES))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "container mt-4 mt-md-1 col-12 col-lg-8"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("section", {
-    className: "hero"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
-    src: post.image
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "post-card details p-5"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, i18n.language === 'en' ? post.name : post.name_ES), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    dangerouslySetInnerHTML: {
-      __html: i18n.language === 'en' ? post.content : post.content_ES
-    }
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-4",
-    id: "left"
-  }, similar.map(function (s, i) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Components_PostMini__WEBPACK_IMPORTED_MODULE_3__.default, {
+    className: "breadcrumb-item active"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    className: i18n.language != 'en' ? 'hidden' : ''
+  }, category.EN_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    className: i18n.language != 'es' ? 'hidden' : ''
+  }, category.ES_name)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: ""
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", {
+    className: "text-uppercase mt-5 mb-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    className: i18n.language != 'en' ? 'hidden' : ''
+  }, category.EN_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    className: i18n.language != 'es' ? 'hidden' : ''
+  }, category.ES_name)), posts.filter(function (p) {
+    return p.usr_type_id === utype;
+  }).map(function (p, i) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Components_PostCard__WEBPACK_IMPORTED_MODULE_3__.default, {
       key: i,
-      name: i18n.language === 'en' ? s.name : s.name_ES,
-      slug: s.slug,
-      image: s.image,
-      extract: (i18n.language === 'en' ? s.content : s.content_ES).split(' ').filter(function (_, i) {
-        return i < 10;
-      }).join(" ")
+      alt: i % 2 == 0,
+      name_ES: p.name_ES,
+      image: p.image,
+      name: p.name,
+      extract: (i18n.language === 'en' ? p.content : p.content_ES).split(' ').filter(function (_, i) {
+        return i < 20;
+      }).join(" "),
+      slug: p.slug
     });
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "container col-12 d-none"
   })));
 };
 
-Home.layout = function (page) {
+Category.layout = function (page) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Components_Layout__WEBPACK_IMPORTED_MODULE_1__.default, {
     children: page,
-    title: "Appname - " + page.props.p.post.name
+    title: "Appname - " + page.props.cat.category.EN_name
   });
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Home);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Category);
 
 /***/ }),
 

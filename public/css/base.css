@@ -9,6 +9,10 @@ section.lang-section a {
     text-transform: uppercase;
 }
 
+section.lang-section a:hover {
+    cursor: pointer;
+}
+
 section.lang-section a.active {
     font-weight: bold;
 }
@@ -25,6 +29,10 @@ div#usrLevels div {
 
 div#usrLevels div:hover {
     cursor: pointer;
+}
+
+div#usrLevels div {
+    text-transform: capitalize;
 }
 
 div#usrLevels div.selected {
@@ -247,7 +255,7 @@ ol.breadcrumb a {
     }
 
     footer h1 {
-        font-size: 2rem;
+        font-size: 1.5rem;
         padding-top: 0.8em;
     }
 
@@ -272,4 +280,10 @@ ol.breadcrumb a {
     .card-body.p-md-5 {
         padding: 0;
     }
+}
+
+/* Navigation links */
+
+.nav-item .nav-link {
+    text-transform: uppercase;
 }

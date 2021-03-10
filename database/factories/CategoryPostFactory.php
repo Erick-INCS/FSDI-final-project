@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\UserType;
+use App\Models\CategoryPost;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class UserTypeFactory extends Factory
+class CategoryPostFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = UserType::class;
+    protected $model = CategoryPost::class;
 
     /**
      * Define the model's default state.
@@ -22,10 +22,8 @@ class UserTypeFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->word,
-            'nameES' => $this->faker->word,
-            'descES' => $this->faker->sentence,
-            'descENG' => $this->faker->sentence,
+            'post_id'=> rand(1,10),
+            'category_id' => rand(1, 5),
         ];
     }
 }

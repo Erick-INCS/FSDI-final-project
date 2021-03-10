@@ -1,17 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { InertiaLink } from "@inertiajs/inertia-react";
 import { useTranslation } from 'react-i18next';
+import { usePage } from "@inertiajs/inertia-react";
 
 export default function Layout({ title, children }) {
     useEffect(() => {
         document.title = title;
     }, [title]);
 
-    const { t, i18n } = useTranslation()
+    const { t, i18n } = useTranslation(),
+        {types, categories, loggedIn} = usePage().props,
+        useTypes = !document.location.pathname.includes('/post/') && !document.location.pathname.includes('/survey/');
+
+    let [currentType , setcurrentType] = useState(types && types[0] ? types[0].name : '');
+    document.CC = currentType;
+    document.CCId = types[0].id;
 
     const changeLanguage = (event) => {
         i18n.changeLanguage(event.target.value)
     }
+
+    const setCategory = (cat, cat_id) => {
+        if (useTypes) {
+            document.CCId = cat_id;
+            document.changedCat(cat, cat_id);
+            setcurrentType(cat);
+        }
+    };
+
+    const logOut = function () {
+        document.querySelector('a.btnLogout').click();
+    };
 
     return (
             <div className="custom-container">
@@ -36,46 +55,44 @@ export default function Layout({ title, children }) {
                         </button>
                         <div className="collapse navbar-collapse" id="navbarNav">
                             <ul className="navbar-nav me-auto">
-                                <li className="nav-item">
-                                    <InertiaLink className="nav-link" href="#">
-                                        DIET & NUTRITION
-                                    </InertiaLink>
-                                </li>
-                                <li className="nav-item">
-                                    <InertiaLink className="nav-link" href="#">
-                                        FITNESS
-                                    </InertiaLink>
-                                </li>
-                                <li className="nav-item">
-                                    <InertiaLink className="nav-link" href="#">
-                                        NEWS
-                                    </InertiaLink>
-                                </li>
+                                {categories.map((c, i) => (
+
+                                    <li className="nav-item" key={i}>
+                                        <InertiaLink className={`nav-link ${document.location.pathname.includes(c.slug) ? 'active' : ''}`} href={`/Category/${c.slug}`}>
+                                            <span className={i18n.language != 'en' ? 'hidden' : ''}>{c.EN_name}</span>
+                                            <span className={i18n.language != 'es' ? 'hidden' : ''}>{c.ES_name}</span>
+                                        </InertiaLink>
+                                    </li>
+                                ))}
                             </ul>
                             <section className="navbar-text lang-section">
                                 <h6>
+                                    {loggedIn ? (
+                                        <a href="#" className="text-sm text-gray-700" onClick={logOut}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="inline mr-2 bi bi-door-open" viewBox="0 0 16 16">
+                                                <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"/>
+                                                <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117zM11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5zM4 1.934V15h6V1.077l-6 .857z"/>
+                                            </svg>
+                                        </a>
+                                    ) : (
+                                        <a href='/dashboard' className="text-sm text-gray-700 underline" >
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="inline bi bi-speedometer mr-2" viewBox="0 0 16 16">
+                                                <path d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2zM3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.389.389 0 0 0-.029-.518z"/>
+                                                <path fillRule="evenodd" d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.945 11.945 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0z"/>
+                                            </svg>
+                                        </a> 
+                                    )}
+
                                     {/* @if (Route::has('login'))
                                         @auth
-                                            <InertiaLink href="{{ url('dashboard') }}" className="text-sm text-gray-700 underline">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-gear" viewBox="0 0 16 16">
-                                                    <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
-                                                    <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
-                                                </svg>
-                                            </InertiaLink>
+                                            
                                         @else
-                                            <InertiaLink href="{{ url('login') }}" className="text-sm text-gray-700 underline">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-door-open" viewBox="0 0 16 16">
-                                                    <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"/>
-                                                    <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117zM11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5zM4 1.934V15h6V1.077l-6 .857z"/>
-                                                </svg>
-                                            </InertiaLink> 
-                                            &nbsp;&nbsp;&nbsp;
+                                            
                                             @if (Route::has('register'))
                                             @endif
                                         @endauth
-                                @endif */}
+                                    @endif */}
                                     <a
-                                        href="/#"
                                         className={i18n.language == 'en' ? 'active' : ''}
                                         onClick={()=>i18n.changeLanguage('en')}
                                     >
@@ -83,7 +100,6 @@ export default function Layout({ title, children }) {
                                     </a>
                                     |
                                     <a
-                                        href="/#"
                                         className={i18n.language == 'es' ? 'active' : ''}
                                         onClick={()=>i18n.changeLanguage('es')}
                                     >
@@ -95,27 +111,24 @@ export default function Layout({ title, children }) {
                     </div>
                 </nav>
 
-                <div className="d-flex bg-light" id="usrLevels">
-                    <div>
-                        <p>Basic</p>
+                {useTypes ? 
+                    <div className={`d-flex bg-light`} id="usrLevels">
+                        {types.map(t => <div key={t.name} onClick={()=>setCategory(t.name, t.id)} className={(t.name === currentType ? 'selected' : '')}>
+                            <p className={i18n.language != 'en' ? 'hidden' : ''}>{t.name}</p>
+                            <p className={i18n.language != 'es' ? 'hidden' : ''}>{t.nameES}</p>
+                        </div>)}
                     </div>
-                    <div className="selected">
-                        <p>Intermediate</p>
-                    </div>
-                    <div>
-                        <p>Advanced</p>
-                    </div>
-                </div>
+                : <></>}
 
                 {children}
 
-                <footer className="bg-dark text-white text-center p-2">
-                    <h1 className="mt-1">Appname</h1>
+                <footer className="bg-dark text-white text-center p-1">
+                    <h1 className="">Appname</h1>
                     <div className="mt-3 footer-links d-flex flex-column flex-md-row">
-                        <InertiaLink>Privacy</InertiaLink>
+                        {/* <InertiaLink>Privacy</InertiaLink>
                         <InertiaLink>Terms of Service</InertiaLink>
                         <InertiaLink>Ad Choices</InertiaLink>
-                        <InertiaLink>Web Accessibility</InertiaLink>
+                        <InertiaLink>Web Accessibility</InertiaLink> */}
                     </div>
                 </footer>
             </div>

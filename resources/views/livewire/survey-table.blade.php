@@ -31,6 +31,7 @@
                 <th class="px-4 py-2">Aviable from</th>
                 <th class="px-4 py-2">Aviable to</th>
                 <th class="px-4 py-2">Enabled</th>
+                <th class="px-4 py-2">URL</th>
                 <th class="px-4 py-2">Public</th>
                 <th class="px-4 py-2">Created at</th>
                 <th class="px-4 py-2">Created by</th>
@@ -45,7 +46,8 @@
                 <td class="border px-4 py-2">{{ $survey->aviableFrom }}</td>
                 <td class="border px-4 py-2">{{ $survey->aviableTo }}</td>
                 <td class="border px-4 py-2">{{ $survey->enabled }}</td>
-                <td class="border px-4 py-2">{{ $survey->public }}</td>
+                <td class="border px-4 py-2"><a class="text-pink-700" href="/survey/{{ $survey->slug}}">Go to survey</a></td>
+                <td class="border px-4 py-2">{{ $survey->public}}</td>
                 <td class="border px-4 py-2">{{ $survey->created_at->diffForHumans() }}</td>
                 <td class="border px-4 py-2">{{ $survey->user->name }}</td>
                 <td class="border px-2 py-1">

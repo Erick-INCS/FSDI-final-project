@@ -19,6 +19,7 @@ class CreateSurveysTable extends Migration
             $table->unsignedBigInteger('user_id');
 
             $table->string('name');
+            $table->string('name_ES');
             $table->string('slug');
             $table->string('image')->default('');
             $table->json('config');

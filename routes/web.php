@@ -26,6 +26,8 @@ Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/post/{post:slug}', [PageController::class, 'post'])->name('post');
 
 Route::get('/survey/{survey:slug}', [PageController::class, 'survey'])->name('survey');
+
+Route::get('/Category/{category:slug}', [PageController::class, 'category'])->name('category');
 // Admin panel
 
 Route::post('/survey/{survey:slug}/response', [PageController::class, 'survey_response'])->name('survey_response');
@@ -58,3 +60,13 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/survey/{survey:
         'questions' => $survey->config,
     ]);
 })->name('admin-survey-responses');
+
+
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/categories', function () {
+    return view('admin-categories');
+})->name('admin-categories');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/user-types', function () {
+    return view('admin-user-types');
+})->name('admin-user-types');

@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Kyslik\ColumnSortable\Sortable;
+use App\Models\Category;
 
 class Post extends Model
 {
-    use HasFactory, Sortable;
+    use HasFactory, Sortable, Sluggable;
 
     protected $fillable = ['name', 'content', 'image', 'enabled', 'slug'];
     public $sortable = ['name'];
@@ -47,5 +48,13 @@ class Post extends Model
     public function searchableAs()
     {
         return 'id';
+    }
+
+    public function categories() {
+        return $this->belongsToMany(
+            Category::class,
+            'category_posts',
+            'post_id',
+            'category_id');
     }
 }

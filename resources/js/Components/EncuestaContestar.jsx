@@ -8,9 +8,7 @@ let Respuestas = [];
 export const EncuestaContestar = (conf) => {
 
     const { t, i18n } = useTranslation()
-
     const RespuestasRef = useRef(new Array());
-
     let Preguntas = conf.conf;
 
     let Respuesta = {
