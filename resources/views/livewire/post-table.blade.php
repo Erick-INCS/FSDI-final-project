@@ -27,7 +27,7 @@
                 <th class="px-4 py-2">@sortablelink('name', 'Title')</th>
                 <th class="px-4 py-2 w-20">User</th>
                 <th class="px-4 py-2">Created at</th>
-                <th class="px-4 py-2">Content</th>
+                <th class="px-4 py-2">URL</th>
                 <th class="px-4 py-2">Enabled</th>
                 <th class="px-4 py-2">Action</th>
             </tr>
@@ -40,9 +40,7 @@
                 <td class="border px-4 py-2">{{ $post->user->name }}</td>
                 <td class="border px-4 py-2">{{ $post->created_at->diffForHumans() }}</td>
                 <td class="border px-4 py-2">
-                    @php
-                        echo $post->miniextract . ' ...';
-                    @endphp
+                    <a class="text-pink-700" href='{{url("post/{$post->slug}")}}'>{{$post->slug}}</a>
                 </td>
                 <td class="border px-4 py-2">{{ $post->enabled }}</td>
                 <td class="border px-4 py-2">
@@ -58,4 +56,10 @@
 
     <br>
     {{ $posts->links() }}
+</div>
+
+<div id="options" class="hidden">
+    @foreach($userTypes as $type)
+        <option value="{{$type->id}}">{{$type->name}}</option>
+    @endforeach
 </div>

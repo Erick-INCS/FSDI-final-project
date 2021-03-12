@@ -41,6 +41,10 @@ return [
      */
     'do_not_track_paths' => [
         'api/*',
+        '*.js*',
+        '*.css*',
+        '*dashboard*',
+        '*livewire*',
     ],
 
     /*
@@ -56,7 +60,7 @@ return [
      *     '172.17.0.0/255.255.0.0'
      */
     'do_not_track_ips' => [
-        '127.0.0.0/24', /// range 127.0.0.1 - 127.0.0.255
+        //'127.0.0.0/24', /// range 127.0.0.1 - 127.0.0.255
     ],
 
     /*
@@ -181,7 +185,7 @@ return [
      *     sudo apt-get purge php5-geoip
      *
      */
-    'log_geoip' => false,
+    'log_geoip' => true,
 
     /*
      * Do you wish to log the user agent?
@@ -201,7 +205,7 @@ return [
     /*
      * Do you wish to log languages?
      */
-    'log_languages' => false,
+    'log_languages' => true,
 
     /*
      * Do you wish to log HTTP referers?
@@ -211,7 +215,7 @@ return [
     /*
      * Do you wish to log url paths?
      */
-    'log_paths' => false,
+    'log_paths' => true,
 
     /*
      * Do you wish to log url queries and query arguments?
@@ -312,7 +316,7 @@ return [
     /*
      * Laravel internal variables on user authentication and login.
      */
-    'authentication_ioc_binding' => ['auth', 'admin', 'dashboard'], // defaults to 'auth' in Illuminate\Support\Facades\Auth
+    'authentication_ioc_binding' => ['auth', 'admin', 'dashboard', 'login', 'logout'], // defaults to 'auth' in Illuminate\Support\Facades\Auth
 
     'authentication_guards' => [], // defaults to []
 

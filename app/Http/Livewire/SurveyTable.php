@@ -4,17 +4,29 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Survey;
+use Livewire\WithPagination;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
 
 class SurveyTable extends Component
 {
     public $survey, $name, $config, $enabled, $public, $responseLimit, $aviableFrom, $aviableTo, $survey_id;
     public $isOpen = 0;
+    public $filter;
+    
+    use WithPagination;
 
     public function render()
     {
+        if (!empty($this->filter)) {
+            $surveys = Survey::latest()->with('user')
+                ->where('surveys.name', 'like', '%'.$this->filter.'%')->paginate(6);
+        } else {
+            $surveys= Survey::latest()->with('user')->paginate(6);
+
+        }
+
         return view('livewire.survey-table', [
-            'surveys' => Survey::latest()->with('user')->paginate(7)
+            'surveys' => $surveys,
         ]);
     }
 
@@ -43,7 +55,7 @@ class SurveyTable extends Component
     {
         $this->isOpen = false;
     }
-  
+
     /**
      * The attributes that are mass assignable.
      *

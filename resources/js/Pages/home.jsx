@@ -19,7 +19,7 @@ const Home = () => {
         <>
             <section className="hero">
                 <div className="content">
-                    <h3>Appname</h3>
+                    <h3>Health 101</h3>
                     {/* <h5>'messages.welcome'</h5> */}
                     <p>{t('hero.text')}</p>
                 </div>
@@ -28,7 +28,7 @@ const Home = () => {
             <div className="container mt-4">
                 <h2 className="text-uppercase mt-5 mb-4">{t('last post')}</h2>
                 
-                {posts.map((p, i) => <PostCard key={i} alt={i%2==0} name_ES={p.name_ES} image={p.image} name={p.name} extract={p.content.split(' ').filter((_, i) => i < 20).join(" ")} slug={p.slug}></PostCard>)}
+                {posts.map((p, i) => <PostCard key={i} alt={i%2==0} name_ES={p.name_ES} image={p.image} name={p.name} extract={(i18n.language === 'en' ? p.content : p.content_ES).split(' ').filter((_, i) => i < 20).join(" ")} slug={p.slug}></PostCard>)}
             </div>
         </>
     );

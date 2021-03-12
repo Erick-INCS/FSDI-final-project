@@ -32,7 +32,7 @@
                 <td class="border px-4 py-2">{{ $category->EN_name }}</td>
                 <td class="border px-4 py-2">{{ $category->ES_name }}</td>
                 <td class="border px-4 py-2">
-                    <a class="text-pink-700" href="/Category/{{ $category->slug }}">/Category/{{ $category->slug }}</a>
+                    <a class="text-pink-700" href='{{url("Category/{$category->slug}")}}'>/Category/{{ $category->slug }}</a>
                 </td>
                 <td class="border px-4 py-2">{{ $category->created_at->diffForHumans() }}</td>
                 <td class="border px-4 py-2">

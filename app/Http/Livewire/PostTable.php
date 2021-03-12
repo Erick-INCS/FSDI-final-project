@@ -5,11 +5,13 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Post;
+use App\Models\UserType;
 use illuminate\Http\Request;
+use \Cviebrock\EloquentSluggable\Services\SlugService;
 
 class PostTable extends Component
 {
-    public $blogs, $title, $content, $post_id;
+    public $blogs, $name, $content, $post_id, $name_ES, $content_ES, $enabled, $image, $usr_type_id, $user_types, $category;
     public $isOpen = 0;
     public $filter;
 
@@ -22,23 +24,16 @@ class PostTable extends Component
 
     public function render()
     {
-        // echo var_dump($this->title);
-        // echo '/<br>';
-        // echo var_dump($filter);
-
         if (!empty($this->filter)) {
             $posts = Post::sortable()
                 ->where('posts.name', 'like', '%'.$this->filter.'%')->paginate(7);//->get();
         } else {
             $posts = Post::sortable()->paginate(7);;
-            // echo 'empty';
         }
-        return view('livewire.post-table')->with('posts', $posts)->with('filter', $this->filter);
-
-        // return view('livewire.post-table', [
-        //     'posts' => Post::sortable()->get()
-        //     // 'posts' => Post::latest()->with('user')->get()
-        // ]);
+        return view('livewire.post-table')
+            ->with('posts', $posts)
+            ->with('filter', $this->filter)
+            ->with('userTypes', UserType::all());
     }
 
     public function indexFiltering(Request $request)
@@ -60,7 +55,7 @@ class PostTable extends Component
         $this->resetInputFields();
         $this->openModal();
     }
-  
+
     /**
      * The attributes that are mass assignable.
      *
@@ -87,11 +82,17 @@ class PostTable extends Component
      * @var array
      */
     private function resetInputFields(){
-        $this->title = '';
+        $this->name= '';
+        $this->name_ES= '';
         $this->content = '';
+        $this->content_ES= '';
+        $this->enabled = true;
+        $this->image= '';
+        $this->usr_type_id=1;
         $this->post_id = '';
+        $this->category = '';
     }
-     
+
     /**
      * The attributes that are mass assignable.
      *
@@ -100,19 +101,26 @@ class PostTable extends Component
     public function store()
     {
         $this->validate([
-            'title' => 'required',
+            'name' => 'required',
             'content' => 'required',
         ]);
-   
+
         Post::updateOrCreate(['id' => $this->post_id], [
-            'title' => $this->title,
+            'name' => $this->name,
+            'slug' => SlugService::createSlug(Post::class, 'slug', $this->name),
+            'name_ES' => $this->name_ES,
             'content' => $this->content,
+            'content_ES' => $this->content_ES,
+            'image' => $this->image,
+            'enabled' => $this->enabled,
+            'usr_type_id' => $this->usr_type_id,
+            'category' => $this->category,
             'user_id' => auth()->id()
         ]);
-  
+
         session()->flash('message', 
             $this->post_id ? 'Post Updated Successfully.' : 'Post Created Successfully.');
-  
+
         $this->closeModal();
         $this->resetInputFields();
     }
@@ -125,9 +133,14 @@ class PostTable extends Component
     {
         $post = Post::findOrFail($id);
         $this->post_id = $id;
-        $this->title = $post->name;
+        $this->name= $post->name;
+        $this->name_ES= $post->name_ES;
         $this->content = $post->content;
-    
+        $this->content_ES = $post->content_ES;
+        $this->enabled= $post->enabled;
+        $this->usr_type_id = $post->usr_type_id;
+        $this->image= $post->image;
+
         $this->openModal();
     }
 

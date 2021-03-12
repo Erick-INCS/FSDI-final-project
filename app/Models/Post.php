@@ -12,7 +12,7 @@ class Post extends Model
 {
     use HasFactory, Sortable, Sluggable;
 
-    protected $fillable = ['name', 'content', 'image', 'enabled', 'slug'];
+    protected $fillable = ['name', 'name_ES', 'content_ES', 'content', 'image', 'enabled', 'slug', 'user_id', 'usr_type_id'];
     public $sortable = ['name'];
 
     public function user()

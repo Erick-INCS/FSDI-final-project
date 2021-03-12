@@ -42,5 +42,5 @@ const Category = () => {
     );
 };
 
-Category.layout = (page) => <Layout children={page} title={"Appname - " + page.props.cat.category.EN_name} />;
+Category.layout = (page) => <Layout children={page} title={"Health 101 - " + page.props.cat.category.EN_name} />;
 export default Category;

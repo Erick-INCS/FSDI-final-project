@@ -1,6 +1,11 @@
 import React from 'react'
 
 export default function PostMini({name, extract, slug, image}) {
+    
+    let sandbox = document.createElement('div');
+    sandbox.innerHTML = extract;
+    extract = sandbox.innerText;
+
     return (
         <div className="card post-card sub-post ms-4">
     <img src={image} alt="similar post image"></img>

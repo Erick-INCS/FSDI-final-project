@@ -76,5 +76,5 @@ const Home = () => {
     );
 };
 
-Home.layout = (page) => <Layout children={page} title={"Appname - " + page.props.p.post.name} />;
+Home.layout = (page) => <Layout children={page} title={"Health 101 - " + page.props.p.post.name} />;
 export default Home;

@@ -23,6 +23,13 @@
         </script>
     @endif
 
+    <div class="relative mx-4 mb-4 mt-1">
+        <input type="text" wire:model="filter" class="w-full pl-3 pr-10 py-2 border-2 border-gray-200 rounded-xl hover:border-gray-300 focus:outline-none focus:border-blue-500 transition-colors" placeholder="Search..." />
+        <button class="block w-7 h-7 text-center text-xl leading-0 absolute top-2 right-2 text-gray-400 focus:outline-none hover:text-gray-900 transition-colors">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </button>
+    </div>
+
     <table class="table-fixed w-full">
         <thead>
             <tr class="bg-gray-100">
@@ -46,7 +53,9 @@
                 <td class="border px-4 py-2">{{ $survey->aviableFrom }}</td>
                 <td class="border px-4 py-2">{{ $survey->aviableTo }}</td>
                 <td class="border px-4 py-2">{{ $survey->enabled }}</td>
-                <td class="border px-4 py-2"><a class="text-pink-700" href="/survey/{{ $survey->slug}}">Go to survey</a></td>
+                <td class="border px-4 py-2">
+                    <a class="text-pink-700" href='{{url("survey/{$survey->slug}")}}'>Go to survey</a>
+                </td>
                 <td class="border px-4 py-2">{{ $survey->public}}</td>
                 <td class="border px-4 py-2">{{ $survey->created_at->diffForHumans() }}</td>
                 <td class="border px-4 py-2">{{ $survey->user->name }}</td>

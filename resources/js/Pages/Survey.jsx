@@ -16,7 +16,7 @@ const Survey = () => {
     );
 };
 
-Survey.layout = (page) => <Layout children={page} title={"Appname - " + page.props.surveyData.survey.name} />;
+Survey.layout = (page) => <Layout children={page} title={"Health 101 - " + page.props.surveyData.survey.name} />;
 export default Survey;
 
 /*

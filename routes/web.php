@@ -38,11 +38,46 @@ Route::get('/survey/{survey:slug}/thanks', [PageController::class, 'survey_thank
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
-    $sessions = Tracker::sessions(60 * 24);
-    $visitor = Tracker::currentSession();
+    $sessions = Tracker::sessions(60 * 24); // get sessions (visits) from the past day
+    $paths = [];
+    $langs = [];
+    $jsResourceRG = "/(\.js|css|dashboard|livewire|_ignition)/";
+    $spamNames = ['logout'];//, 'login'];
+    $spamData = 0;
+    $langsCount = 0;
+    
+    foreach ($sessions as $session)
+    {
+        $lg = $session->language->preference;
+
+        if (array_key_exists($lg, $langs)) {
+            $langs[$lg] += 1;
+        } else {
+            $langs[$lg] = 1;
+        }
+
+        foreach ($session->log as $log)
+        {
+            if (!is_null($log) && $log->path) {
+                $currentPath = $log->path->path;
+                if (preg_match($jsResourceRG, $currentPath) || in_array($currentPath, $spamNames)) {
+                    $spamData += 1;
+                    continue;
+                }
+                
+                if (array_key_exists($currentPath, $paths)) {
+                    $paths[$currentPath] += 1;
+                } else {
+                    $paths[$currentPath] = 1;
+                }
+            }
+        }
+    }
 
     return view('dashboard', [
-        'something' => $sessions
+        'today' => Tracker::pageViews(60 * 24 * 30),
+        'paths' => $paths,
+        'langs' => $langs,
     ]);
 })->name('dashboard');
 
@@ -60,8 +95,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/survey/{survey:
         'questions' => $survey->config,
     ]);
 })->name('admin-survey-responses');
-
-
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/categories', function () {
     return view('admin-categories');

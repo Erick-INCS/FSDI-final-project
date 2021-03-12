@@ -72,13 +72,16 @@ class PageController extends Controller
 
 
     public function survey_thanks(Survey $survey) {
+        $types = UserType::all();
         return Inertia::render('survey-thanks', [
             'srv' => compact('survey'),
             'categories' => Category::all(),
+            'types' => $types,
             ]);
     }
 
     public function survey(Survey $survey) {
+        $types = UserType::all();
         // if (!$survey->enabled) {
         // }
         // http://127.0.0.1:8000/survey/radom-title-4-1
@@ -96,6 +99,7 @@ class PageController extends Controller
         return Inertia::render('Survey', [
             'surveyData' =>compact('survey'),
             'categories' => Category::all(),
+            'types' => $types,
         ]);
     }
 }
